@@ -17,6 +17,14 @@ class MainViewController: UIViewController {
     private let defaultTextColor = "CFCFCF"
     private let defaultBackgroundColor = "000000"
     
+    private var elementsHidden: Bool = false {
+        didSet {
+            titleLabel?.isHidden = elementsHidden
+            textColorButton?.isHidden = elementsHidden
+            backgroundColorButton?.isHidden = elementsHidden
+        }
+    }
+    
     private var backgroundColor: UIColor? {
         get {
             return view.backgroundColor
@@ -50,9 +58,7 @@ class MainViewController: UIViewController {
     private var colors: Colors? {
         didSet {
             guard let colors = colors else {
-                titleLabel?.isHidden = true
-                textColorButton?.isHidden = true
-                backgroundColorButton?.isHidden = true
+                elementsHidden = true
                 return
             }
             
@@ -71,9 +77,7 @@ class MainViewController: UIViewController {
             self.backgroundColor = UIColor.fromHexString(hexStr: backgroundColor)
             self.textColor = UIColor.fromHexString(hexStr: textColor)
             
-            titleLabel?.isHidden = false
-            textColorButton?.isHidden = false
-            backgroundColorButton?.isHidden = false
+            elementsHidden = false
         }
     }
 
@@ -83,10 +87,8 @@ class MainViewController: UIViewController {
         // show white background initially
         backgroundColor = .white
         
-        // hide initially until we load a list of colors
-        titleLabel?.isHidden = true
-        textColorButton?.isHidden = true
-        backgroundColorButton?.isHidden = true
+        // hide elements initially until we load a list of colors
+        elementsHidden = true
         
         loadColors()
     }
