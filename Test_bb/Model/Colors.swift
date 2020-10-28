@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct Colors: Decodable {
+struct Colors: Codable {
     var backgroundColors: [String]
     var textColors: [String]
 }
 
-struct ColorsResponse: Decodable {
+struct ColorsResponse: Codable {
     var title: String
     var colors: Colors
 }

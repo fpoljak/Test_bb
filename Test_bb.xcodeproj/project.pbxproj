@@ -19,6 +19,7 @@
 		0591A1CE2549D9BC0036B7C6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1CC2549D9BC0036B7C6 /* MainViewController.swift */; };
 		0591A1CF2549D9BC0036B7C6 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0591A1CD2549D9BC0036B7C6 /* MainViewController.xib */; };
 		0591A1D22549E16E0036B7C6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1D12549E16E0036B7C6 /* Colors.swift */; };
+		0591A1D52549E4250036B7C6 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1D42549E4250036B7C6 /* ApiService.swift */; };
 		DE258673F9DC682A7884219D /* Pods_Test_bb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8F54C6A3A1CCE6343B866D /* Pods_Test_bb.framework */; };
 		E17C3A208396FB29E6FA634C /* libPods-Test_bbTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63845E40DA93D0F1C7608859 /* libPods-Test_bbTests.a */; };
 /* End PBXBuildFile section */
@@ -59,6 +60,7 @@
 		0591A1CC2549D9BC0036B7C6 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0591A1CD2549D9BC0036B7C6 /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		0591A1D12549E16E0036B7C6 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		0591A1D42549E4250036B7C6 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		5B9DEB67ECCAB0FDB081100B /* Pods-Test_bb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test_bb.release.xcconfig"; path = "Target Support Files/Pods-Test_bb/Pods-Test_bb.release.xcconfig"; sourceTree = "<group>"; };
 		63845E40DA93D0F1C7608859 /* libPods-Test_bbTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Test_bbTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2C39217EC8841329AA46D /* Pods-Test_bbTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test_bbTests.debug.xcconfig"; path = "Target Support Files/Pods-Test_bbTests/Pods-Test_bbTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				0591A1D02549E1390036B7C6 /* Model */,
+				0591A1D32549E3E80036B7C6 /* Services */,
 				0591A1C62549D6CB0036B7C6 /* Extensions */,
 				0591A1CB2549D9880036B7C6 /* Controllers */,
 				0591A1962549C9C40036B7C6 /* AppDelegate.swift */,
@@ -183,6 +186,14 @@
 				0591A1D12549E16E0036B7C6 /* Colors.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0591A1D32549E3E80036B7C6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				0591A1D42549E4250036B7C6 /* ApiService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		9F8734265797875AA893828E /* Pods */ = {
@@ -400,6 +411,7 @@
 				0591A1992549C9C40036B7C6 /* SceneDelegate.swift in Sources */,
 				0591A1C82549D6E80036B7C6 /* UIColor+Helpers.swift in Sources */,
 				0591A1D22549E16E0036B7C6 /* Colors.swift in Sources */,
+				0591A1D52549E4250036B7C6 /* ApiService.swift in Sources */,
 				0591A1CE2549D9BC0036B7C6 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
