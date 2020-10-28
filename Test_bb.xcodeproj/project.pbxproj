@@ -15,6 +15,7 @@
 		0591A1A32549C9C60036B7C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0591A1A12549C9C60036B7C6 /* LaunchScreen.storyboard */; };
 		0591A1AE2549C9C60036B7C6 /* Test_bbTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1AD2549C9C60036B7C6 /* Test_bbTests.swift */; };
 		0591A1B92549C9C60036B7C6 /* Test_bbUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1B82549C9C60036B7C6 /* Test_bbUITests.swift */; };
+		0591A1C82549D6E80036B7C6 /* UIColor+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1C72549D6E80036B7C6 /* UIColor+Helpers.swift */; };
 		DE258673F9DC682A7884219D /* Pods_Test_bb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8F54C6A3A1CCE6343B866D /* Pods_Test_bb.framework */; };
 		E17C3A208396FB29E6FA634C /* libPods-Test_bbTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63845E40DA93D0F1C7608859 /* libPods-Test_bbTests.a */; };
 /* End PBXBuildFile section */
@@ -51,6 +52,7 @@
 		0591A1B42549C9C60036B7C6 /* Test_bbUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test_bbUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0591A1B82549C9C60036B7C6 /* Test_bbUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test_bbUITests.swift; sourceTree = "<group>"; };
 		0591A1BA2549C9C60036B7C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0591A1C72549D6E80036B7C6 /* UIColor+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Helpers.swift"; sourceTree = "<group>"; };
 		5B9DEB67ECCAB0FDB081100B /* Pods-Test_bb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test_bb.release.xcconfig"; path = "Target Support Files/Pods-Test_bb/Pods-Test_bb.release.xcconfig"; sourceTree = "<group>"; };
 		63845E40DA93D0F1C7608859 /* libPods-Test_bbTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Test_bbTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2C39217EC8841329AA46D /* Pods-Test_bbTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test_bbTests.debug.xcconfig"; path = "Target Support Files/Pods-Test_bbTests/Pods-Test_bbTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 		0591A1952549C9C40036B7C6 /* Test_bb */ = {
 			isa = PBXGroup;
 			children = (
+				0591A1C62549D6CB0036B7C6 /* Extensions */,
 				0591A1962549C9C40036B7C6 /* AppDelegate.swift */,
 				0591A1982549C9C40036B7C6 /* SceneDelegate.swift */,
 				0591A19A2549C9C40036B7C6 /* MainViewController.swift */,
@@ -147,6 +150,14 @@
 				0591A1BA2549C9C60036B7C6 /* Info.plist */,
 			);
 			path = Test_bbUITests;
+			sourceTree = "<group>";
+		};
+		0591A1C62549D6CB0036B7C6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0591A1C72549D6E80036B7C6 /* UIColor+Helpers.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		9F8734265797875AA893828E /* Pods */ = {
@@ -361,6 +372,7 @@
 				0591A19B2549C9C40036B7C6 /* MainViewController.swift in Sources */,
 				0591A1972549C9C40036B7C6 /* AppDelegate.swift in Sources */,
 				0591A1992549C9C40036B7C6 /* SceneDelegate.swift in Sources */,
+				0591A1C82549D6E80036B7C6 /* UIColor+Helpers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
