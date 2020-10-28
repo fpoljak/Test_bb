@@ -17,4 +17,15 @@ extension UIColor {
         
         self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
     }
+    
+    static func fromHexString(hexStr: String) -> UIColor {
+        guard let hex = Int(hexStr.uppercased(), radix: 16) else {
+            return UIColor(red: 0, green: 0, blue: 0)
+        }
+        return UIColor(
+            red: (hex >> 16) & 0xFF,
+            green: (hex >> 8) & 0xFF,
+            blue: hex & 0xFF
+        )
+    }
 }
