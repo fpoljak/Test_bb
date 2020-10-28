@@ -28,4 +28,9 @@ extension UIColor {
             blue: hex & 0xFF
         )
     }
+    
+    static func isValidHexColor(hexStr: String) -> Bool {
+        let predicate = NSPredicate(format:"SELF MATCHES %@", "[0-9,A-F,a-f]{6}")
+        return predicate.evaluate(with: hexStr)
+    }
 }

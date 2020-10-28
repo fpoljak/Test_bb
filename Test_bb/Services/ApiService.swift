@@ -40,7 +40,8 @@ public class ApiService {
         return _headers
     }
     
-    @discardableResult static private func genericRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any]?, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void, requiresAuth: Bool = true, v2_0: Bool = false) -> DataRequest {
+    @discardableResult
+    static private func genericRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any]?, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void, requiresAuth: Bool = true, v2_0: Bool = false) -> DataRequest {
         
         let fullUrl = baseUrl + endpoint
         let encoding: ParameterEncoding = method == .get ? URLEncoding.default : JSONEncoding.default
@@ -81,15 +82,18 @@ public class ApiService {
         print("Api error: %@: %@", domain, message)
     }
     
-    @discardableResult static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void, requiresAuth: Bool = true) -> DataRequest {
+    @discardableResult
+    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void, requiresAuth: Bool = true) -> DataRequest {
         return genericRequest(method: method, endpoint: endpoint, params: [:], completion: completion, errorHandler: defaultErrorHandler, requiresAuth: requiresAuth)
     }
     
-    @discardableResult static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void, requiresAuth: Bool = true) -> DataRequest {
+    @discardableResult
+    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void, requiresAuth: Bool = true) -> DataRequest {
         return genericRequest(method: method, endpoint: endpoint, params: [:], completion: completion, errorHandler: errorHandler, requiresAuth: requiresAuth)
     }
     
-    @discardableResult static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any], completion: @escaping (T?) -> Void, requiresAuth: Bool = true) -> DataRequest {
+    @discardableResult
+    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any], completion: @escaping (T?) -> Void, requiresAuth: Bool = true) -> DataRequest {
         return genericRequest(method: method, endpoint: endpoint, params: params, completion: completion, errorHandler: defaultErrorHandler, requiresAuth: requiresAuth)
     }
 }
