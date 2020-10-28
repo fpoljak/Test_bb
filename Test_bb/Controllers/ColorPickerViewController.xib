@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ColorPickerViewController" customModule="Test_bb" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="fBr-nK-7sY" id="SeD-5r-uOD"/>
+                <outlet property="titleLabel" destination="Aqr-n3-nrr" id="yjU-cP-wct"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -32,8 +33,8 @@
                         <outlet property="delegate" destination="-1" id="0w4-yl-6xH"/>
                     </connections>
                 </collectionView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aqr-n3-nrr">
-                    <rect key="frame" x="186" y="94" width="42" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aqr-n3-nrr">
+                    <rect key="frame" x="207" y="94" width="0.0" height="21"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="Amf-qa-5GY"/>
                     </constraints>
@@ -52,7 +53,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="fBr-nK-7sY" secondAttribute="trailing" id="hLW-qV-sta"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <point key="canvasLocation" x="139" y="111"/>
+            <point key="canvasLocation" x="137.68115942028987" y="110.49107142857143"/>
         </view>
     </objects>
 </document>

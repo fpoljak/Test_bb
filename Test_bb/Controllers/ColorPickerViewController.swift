@@ -12,6 +12,7 @@ private class ColorPickerCollectionViewCell: UICollectionViewCell { }
 
 class ColorPickerViewController: UIViewController, ColorPicker {
     
+    @IBOutlet weak private var titleLabel: UILabel?
     @IBOutlet weak private var collectionView: UICollectionView?
     
     weak var colorPickerDelegate: ColorPickerDelegate?
@@ -19,6 +20,7 @@ class ColorPickerViewController: UIViewController, ColorPicker {
 
     var colors: [UIColor] = [] {
         didSet {
+            setupTitle()
             collectionView?.reloadData()
         }
     }
@@ -26,9 +28,20 @@ class ColorPickerViewController: UIViewController, ColorPicker {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupTitle()
+        
         collectionView?.register(ColorPickerCollectionViewCell.self, forCellWithReuseIdentifier: "ColorPickerCollectionViewCell")
 
         collectionView?.reloadData()
+    }
+    
+    private func setupTitle() {
+        guard let titleLabel = titleLabel else {
+            return
+        }
+        
+        titleLabel.text = "Odaberi boju \(type == .text ? "teksta" :"pozadine")"
+        titleLabel.sizeToFit()
     }
 }
 
