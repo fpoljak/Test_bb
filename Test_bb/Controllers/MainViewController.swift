@@ -55,29 +55,12 @@ class MainViewController: UIViewController {
         }
     }
     
+    private var backgroundColors: [UIColor]?
+    private var textColors: [UIColor]?
+    
     private var colors: Colors? {
         didSet {
-            guard let colors = colors else {
-                elementsHidden = true
-                return
-            }
-            
-            let backgroundColors = colors.backgroundColors.filter { (c) -> Bool in
-                return UIColor.isValidHexColor(hexStr: c)
-            }
-            let textColors = colors.textColors.filter { (c) -> Bool in
-                return UIColor.isValidHexColor(hexStr: c)
-            }
-            
-            let backgroundColor = backgroundColors.randomElement() ?? defaultTextColor // fallback if empty array received
-            let textColor = textColors.filter({ (c) -> Bool in
-                return !c.elementsEqual(backgroundColor)
-            }).randomElement() ?? defaultBackgroundColor
-            
-            self.backgroundColor = UIColor.fromHexString(hexStr: backgroundColor)
-            self.textColor = UIColor.fromHexString(hexStr: textColor)
-            
-            elementsHidden = false
+            setupColors()
         }
     }
 
@@ -105,6 +88,78 @@ class MainViewController: UIViewController {
             
             this._title = response.title
             this.colors = response.colors
+        }
+    }
+    
+    private func setupColors() {
+        guard let colors = colors else {
+            elementsHidden = true
+            return
+        }
+        
+        let backgroundColors = colors.backgroundColors.filter { (c) -> Bool in
+            return UIColor.isValidHexColor(hexStr: c)
+        }
+        let textColors = colors.textColors.filter { (c) -> Bool in
+            return UIColor.isValidHexColor(hexStr: c)
+        }
+        
+        self.backgroundColors = backgroundColors.map({ (c) -> UIColor in
+            return UIColor.fromHexString(hexStr: c)
+        })
+        self.textColors = textColors.map({ (c) -> UIColor in
+            return UIColor.fromHexString(hexStr: c)
+        })
+        
+        let backgroundColor = backgroundColors.randomElement() ?? defaultTextColor // fallback if empty array received
+        let textColor = textColors.filter({ (c) -> Bool in
+            return !c.elementsEqual(backgroundColor)
+        }).randomElement() ?? defaultBackgroundColor
+        
+        self.backgroundColor = UIColor.fromHexString(hexStr: backgroundColor)
+        self.textColor = UIColor.fromHexString(hexStr: textColor)
+        
+        elementsHidden = false
+    }
+    
+    @IBAction func pickColor(_ sender: UIButton) {
+        if textColorButton.isEqual(sender) {
+            selectColorFor(.text)
+            return
+        }
+        if backgroundColorButton.isEqual(sender) {
+            selectColorFor(.background)
+        }
+    }
+    
+    private func selectColorFor(_ type: ColorPickerType) {
+        guard let colors = type == .text ? textColors : backgroundColors else {
+            return
+        }
+        
+        let vc = ColorPickerViewController()
+        vc.colorPickerDelegate = self
+        vc.type = type
+        
+        let disabledColor = type == .text ? backgroundColor : textColor
+        
+        vc.colors = colors.filter({ (c) -> Bool in
+            return !c.isEqual(disabledColor)
+        })
+        
+        present(vc, animated: true, completion: nil)
+    }
+}
+
+extension MainViewController: ColorPickerDelegate {
+    func didPickColor(color: UIColor, forType type: ColorPickerType) {
+        switch type {
+        case .background:
+            backgroundColor = color
+            return
+        case .text:
+            textColor = color
+            return
         }
     }
 }
