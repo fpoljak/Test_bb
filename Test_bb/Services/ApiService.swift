@@ -15,8 +15,8 @@ public class ApiService {
     
     private static var sessionManager: SessionManager = {
         let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForResource = TimeInterval(5)
-        configuration.timeoutIntervalForRequest = TimeInterval(5)
+        configuration.timeoutIntervalForResource = TimeInterval(10)
+        configuration.timeoutIntervalForRequest = TimeInterval(10)
         configuration.requestCachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
 //        configuration.urlCache = URLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 80 * 1024 * 1024, diskPath: nil)
         
@@ -32,7 +32,7 @@ public class ApiService {
         return decoder
     }()
     
-    static private func getHeaders(requiresAuth: Bool = true) -> HTTPHeaders {
+    static private func getHeaders() -> HTTPHeaders {
         var _headers = HTTPHeaders()
         _headers["Content-Type"] = "Application/json"
         _headers["Accept"] = "Application/json"
@@ -41,12 +41,12 @@ public class ApiService {
     }
     
     @discardableResult
-    static private func genericRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any]?, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void, requiresAuth: Bool = true, v2_0: Bool = false) -> DataRequest {
+    static private func genericRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any]?, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void) -> DataRequest {
         
         let fullUrl = baseUrl + endpoint
         let encoding: ParameterEncoding = method == .get ? URLEncoding.default : JSONEncoding.default
         
-        let request = sessionManager.request(fullUrl, method: method, parameters: params, encoding: encoding, headers: getHeaders(requiresAuth: requiresAuth))
+        let request = sessionManager.request(fullUrl, method: method, parameters: params, encoding: encoding, headers: getHeaders())
         
         request.responseJSON { (response: DataResponse<Any>) in
             if response.result.isSuccess {
@@ -83,17 +83,22 @@ public class ApiService {
     }
     
     @discardableResult
-    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void, requiresAuth: Bool = true) -> DataRequest {
-        return genericRequest(method: method, endpoint: endpoint, params: [:], completion: completion, errorHandler: defaultErrorHandler, requiresAuth: requiresAuth)
+    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void) -> DataRequest {
+        return genericRequest(method: method, endpoint: endpoint, params: [:], completion: completion, errorHandler: defaultErrorHandler)
     }
     
     @discardableResult
-    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void, requiresAuth: Bool = true) -> DataRequest {
-        return genericRequest(method: method, endpoint: endpoint, params: [:], completion: completion, errorHandler: errorHandler, requiresAuth: requiresAuth)
+    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void) -> DataRequest {
+        return genericRequest(method: method, endpoint: endpoint, params: [:], completion: completion, errorHandler: errorHandler)
     }
     
     @discardableResult
-    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any], completion: @escaping (T?) -> Void, requiresAuth: Bool = true) -> DataRequest {
-        return genericRequest(method: method, endpoint: endpoint, params: params, completion: completion, errorHandler: defaultErrorHandler, requiresAuth: requiresAuth)
+    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any], completion: @escaping (T?) -> Void) -> DataRequest {
+        return genericRequest(method: method, endpoint: endpoint, params: params, completion: completion, errorHandler: defaultErrorHandler)
+    }
+    
+    @discardableResult
+    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any], completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void) -> DataRequest {
+        return genericRequest(method: method, endpoint: endpoint, params: params, completion: completion, errorHandler: errorHandler)
     }
 }
