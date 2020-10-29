@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 private class ColorPickerCollectionViewCell: UICollectionViewCell { }
 
@@ -17,22 +19,33 @@ class ColorPickerViewController: UIViewController, ColorPicker {
     
     weak var colorPickerDelegate: ColorPickerDelegate?
     var type: ColorPickerType = .text
+    
+    var colorObservable: Observable<[UIColor]>?
 
     var colors: [UIColor] = [] {
         didSet {
-            setupTitle()
-            collectionView?.reloadData()
+            colorObservable = Observable.just(colors)
+            setup()
         }
     }
+    
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupTitle()
-        
         collectionView?.register(ColorPickerCollectionViewCell.self, forCellWithReuseIdentifier: "ColorPickerCollectionViewCell")
 
-        collectionView?.reloadData()
+        setup()
+    }
+    
+    private func setup() {
+        guard colors.count > 0 else {
+            return
+        }
+        setupTitle()
+        setupCellConfiguration()
+        setupCellTapHandling()
     }
     
     private func setupTitle() {
@@ -43,23 +56,32 @@ class ColorPickerViewController: UIViewController, ColorPicker {
         titleLabel.text = "Odaberi boju \(type == .text ? "teksta" :"pozadine")"
         titleLabel.sizeToFit()
     }
-}
-
-extension ColorPickerViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        colorPickerDelegate?.didPickColor(color: colors[indexPath.row], forType: type)
-        dismiss(animated: true, completion: nil)
-    }
-}
-
-extension ColorPickerViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return colors.count
+    
+    private func setupCellConfiguration() {
+        guard let collectionView = collectionView else {
+            return
+        }
+        colorObservable?
+            .bind(to: collectionView
+                .rx
+                .items(cellIdentifier: "ColorPickerCollectionViewCell",
+                    cellType: ColorPickerCollectionViewCell.self)) { row, color, cell in
+                        cell.contentView.backgroundColor = color
+        }
+        .disposed(by: disposeBag)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorPickerCollectionViewCell", for: indexPath) as! ColorPickerCollectionViewCell
-        cell.contentView.backgroundColor = colors[indexPath.row]
-        return cell
+    private func setupCellTapHandling() {
+        guard let collectionView = collectionView else {
+            return
+        }
+        collectionView
+            .rx
+            .modelSelected(UIColor.self)
+            .subscribe(onNext: { [unowned self] color in
+                self.colorPickerDelegate?.didPickColor(color: color, forType: self.type)
+                self.dismiss(animated: true, completion: nil)
+        })
+        .disposed(by: disposeBag)
     }
 }
