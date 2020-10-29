@@ -56,7 +56,7 @@ class ColorPickerViewController: UIViewController, ColorPicker {
 
         collectionView?.contentInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
         
-        collectionView?.rx.setDelegate(self).disposed(by: disposeBag)
+        collectionView?.rx.setDelegate(self).disposed(by: disposeBag) // for layout
         
         setup()
     }
