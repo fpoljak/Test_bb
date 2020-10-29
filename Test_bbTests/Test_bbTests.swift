@@ -47,15 +47,16 @@ class Test_bbTests: XCTestCase {
     }
 
     func testHexColorValidity() throws {
-        // valid colors:
-        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "000000"))
-        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "FFFFFF"))
-        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "cfcfcf")) // should support lowercase too
-        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "A1B2C3"))
-        // invalid colors:
-        XCTAssertFalse(UIColor.isValidHexColor(hexStr: "ABCD"))
-        XCTAssertFalse(UIColor.isValidHexColor(hexStr: "12345T"))
-        XCTAssertFalse(UIColor.isValidHexColor(hexStr: "1234567"))
+        let validColors = ["000000", "FFFFFF", "cfcfcf", "A1B2C3"]
+        let invalidColors = ["ABCD", "12345T", "1234567"]
+        
+        validColors.forEach { (c) in
+            XCTAssertTrue(UIColor.isValidHexColor(hexStr: c), "\(c) is a valid color!")
+        }
+        
+        invalidColors.forEach { (c) in
+            XCTAssertFalse(UIColor.isValidHexColor(hexStr: c), "\(c) is an invalid color!")
+        }
     }
     
     func testColorFormHExString() throws {
