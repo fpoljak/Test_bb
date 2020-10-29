@@ -11,7 +11,7 @@ import Alamofire
 
 public class ApiService {
     
-    static var baseUrl: String = "https://d2t41j3b4bctaz.cloudfront.net/"
+    static var baseUrl: String = "https://d2t41j3b4bctaz.cloudfront.net"
     
     private static var sessionManager: Session = {
         let configuration = URLSessionConfiguration.default
@@ -43,7 +43,7 @@ public class ApiService {
     @discardableResult
     static private func genericRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any]?, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void) -> DataRequest {
         
-        let fullUrl = baseUrl + endpoint
+        let fullUrl = baseUrl + "/" + endpoint
         let encoding: ParameterEncoding = method == .get ? URLEncoding.default : JSONEncoding.default
         
         let request = sessionManager.request(fullUrl, method: method, parameters: params, encoding: encoding, headers: getHeaders())

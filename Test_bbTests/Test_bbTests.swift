@@ -11,22 +11,43 @@ import RxSwift
 import RxCocoa
 import RxTest
 import RxBlocking
+import OHHTTPStubs
 
 @testable import Test_bb
 
 class Test_bbTests: XCTestCase {
+    
+    var scheduler: TestScheduler!
+    var disposeBag: DisposeBag!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        try super.setUpWithError()
+        scheduler = TestScheduler(initialClock: 0)
+        disposeBag = DisposeBag()
+        HTTPStubs.setEnabled(true)
+        let host = URL(string: ApiService.baseUrl)!.host!
+        stub(condition: isHost(host)) { request in
+            if let endpoint = request.url?.lastPathComponent {
+                var filename = endpoint
+                if !filename.hasSuffix(".json") {
+                    filename += ".json"
+                }
+                if let path = OHPathForFile(filename, type(of: self)) {
+                    return fixture(filePath: path, headers: ["Content-Type":"application/json"])
+                }
+            }
+            let data = "{}".data(using: String.Encoding.utf8)
+            return HTTPStubsResponse(data: data!, statusCode: 200, headers: ["Content-Type":"application/json"])
+        }
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        HTTPStubs.removeAllStubs()
+        try super.tearDownWithError()
     }
 
     func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
     }
 
     func testPerformanceExample() throws {

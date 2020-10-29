@@ -4,12 +4,12 @@ def shared_pods
     pod 'Alamofire'
     pod 'RxSwift'
     pod 'RxCocoa'
+    pod 'OHHTTPStubs/Swift'
 end
 
 def testing_pods
     pod 'RxTest'
     pod 'RxBlocking'
-    pod 'OHHTTPStubs'
 end
 
 target 'Test_bb' do

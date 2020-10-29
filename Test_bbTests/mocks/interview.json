@@ -1,0 +1,21 @@
+{
+  "title": "Title text",
+  "colors": {
+    "background_colors": [
+    "000000",
+    "ffffff",
+    "888888",
+    "ee3333",
+    "33ee33",
+    "11aaff"
+  ],
+   "text_colors": [
+    "000000",
+    "ffffff",
+    "888888",
+    "ee3333",
+    "33ee33",
+    "11aaff"
+  ]
+  }
+}

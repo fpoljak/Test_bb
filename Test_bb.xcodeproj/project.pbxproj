@@ -24,6 +24,7 @@
 		0591A1DA2549F3D60036B7C6 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1D92549F3D60036B7C6 /* ColorPicker.swift */; };
 		0591A1DD2549F6B40036B7C6 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1DB2549F6B40036B7C6 /* ColorPickerViewController.swift */; };
 		0591A1DE2549F6B40036B7C6 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0591A1DC2549F6B40036B7C6 /* ColorPickerViewController.xib */; };
+		0591A1E1254B58420036B7C6 /* interview.json in Resources */ = {isa = PBXBuildFile; fileRef = 0591A1E0254B58410036B7C6 /* interview.json */; };
 		284C7479631F61E888E11312 /* Pods_Test_bbTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B4CC7BC345D5D01216FE1E7 /* Pods_Test_bbTests.framework */; };
 		DE258673F9DC682A7884219D /* Pods_Test_bb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8F54C6A3A1CCE6343B866D /* Pods_Test_bb.framework */; };
 /* End PBXBuildFile section */
@@ -69,6 +70,7 @@
 		0591A1D92549F3D60036B7C6 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		0591A1DB2549F6B40036B7C6 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		0591A1DC2549F6B40036B7C6 /* ColorPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorPickerViewController.xib; sourceTree = "<group>"; };
+		0591A1E0254B58410036B7C6 /* interview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = interview.json; sourceTree = "<group>"; };
 		5B9DEB67ECCAB0FDB081100B /* Pods-Test_bb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test_bb.release.xcconfig"; path = "Target Support Files/Pods-Test_bb/Pods-Test_bb.release.xcconfig"; sourceTree = "<group>"; };
 		7B4CC7BC345D5D01216FE1E7 /* Pods_Test_bbTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Test_bbTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		88F2C39217EC8841329AA46D /* Pods-Test_bbTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test_bbTests.debug.xcconfig"; path = "Target Support Files/Pods-Test_bbTests/Pods-Test_bbTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 		0591A1AC2549C9C60036B7C6 /* Test_bbTests */ = {
 			isa = PBXGroup;
 			children = (
+				0591A1DF254B577C0036B7C6 /* mocks */,
 				0591A1AD2549C9C60036B7C6 /* Test_bbTests.swift */,
 				0591A1AF2549C9C60036B7C6 /* Info.plist */,
 			);
@@ -216,6 +219,14 @@
 				0591A1D92549F3D60036B7C6 /* ColorPicker.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		0591A1DF254B577C0036B7C6 /* mocks */ = {
+			isa = PBXGroup;
+			children = (
+				0591A1E0254B58410036B7C6 /* interview.json */,
+			);
+			path = mocks;
 			sourceTree = "<group>";
 		};
 		9F8734265797875AA893828E /* Pods */ = {
@@ -351,6 +362,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0591A1E1254B58420036B7C6 /* interview.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
