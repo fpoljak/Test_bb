@@ -13,14 +13,14 @@ public class ApiService {
     
     static var baseUrl: String = "https://d2t41j3b4bctaz.cloudfront.net/"
     
-    private static var sessionManager: SessionManager = {
+    private static var sessionManager: Session = {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForResource = TimeInterval(10)
         configuration.timeoutIntervalForRequest = TimeInterval(10)
         configuration.requestCachePolicy = NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData
 //        configuration.urlCache = URLCache(memoryCapacity: 40 * 1024 * 1024, diskCapacity: 80 * 1024 * 1024, diskPath: nil)
-        
-        return SessionManager(configuration: configuration)
+
+        return Session.init(configuration: configuration)
     }()
     
     
@@ -48,38 +48,29 @@ public class ApiService {
         
         let request = sessionManager.request(fullUrl, method: method, parameters: params, encoding: encoding, headers: getHeaders())
         
-        request.responseJSON { (response: DataResponse<Any>) in
-            if response.result.isSuccess {
-                if let responseData = response.data {
-                    print("api response for ", endpoint, ": ", response)
-                    do {
-                        let data = try decoder.decode(T.self, from: responseData)
-                        completion(data)
-                    } catch {
-                        print("Error decoding data")
-                        print(error)
-                        errorHandler(error as NSError?)
-                    }
-                } else {
-                    completion(nil)
-                }
-            } else {
-                print(response.error as Any)
-                let nsError = response.error as NSError?
+        request.responseDecodable(of: T.self, decoder: decoder) { (response: DataResponse<T, AFError>) in
+            if let error = response.error {
+                let nsError = error.underlyingError as NSError?
                 if nsError?.code == -999 { // cancelled
                     return
                 }
                 errorHandler(nsError)
+                return
             }
+            if let value = response.value as T? {
+                completion(value)
+                return
+            }
+            completion(nil)
         }
-    
+        
         return request
     }
     
     static let defaultErrorHandler = {(error: NSError?) in
         let domain = error?.domain ?? "Unknown error"
         let message = error?.localizedDescription ?? "Unknown error"
-        print("Api error: %@: %@", domain, message)
+        print("Api error: ", domain, ": ", message)
     }
     
     @discardableResult
