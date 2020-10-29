@@ -19,7 +19,7 @@ extension UIColor {
     }
     
     static func fromHexString(hexStr: String) -> UIColor {
-        guard let hex = Int(hexStr.uppercased(), radix: 16) else {
+        guard isValidHexColor(hexStr: hexStr), let hex = Int(hexStr.uppercased(), radix: 16) else {
             return UIColor(red: 0, green: 0, blue: 0)
         }
         return UIColor(
