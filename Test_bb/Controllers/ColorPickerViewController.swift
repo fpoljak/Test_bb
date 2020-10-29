@@ -10,7 +10,25 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-private class ColorPickerCollectionViewCell: UICollectionViewCell { }
+private class ColorPickerCollectionViewCell: UICollectionViewCell {
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        _init()
+    }
+    
+    private func _init() {
+        let layer = contentView.layer
+        layer.cornerRadius = 8.0
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 0.15
+    }   
+}
 
 class ColorPickerViewController: UIViewController, ColorPicker {
     
@@ -36,6 +54,10 @@ class ColorPickerViewController: UIViewController, ColorPicker {
         
         collectionView?.register(ColorPickerCollectionViewCell.self, forCellWithReuseIdentifier: "ColorPickerCollectionViewCell")
 
+        collectionView?.contentInset = UIEdgeInsets(top: 16.0, left: 16.0, bottom: 16.0, right: 16.0)
+        
+        collectionView?.rx.setDelegate(self).disposed(by: disposeBag)
+        
         setup()
     }
     
@@ -83,5 +105,13 @@ class ColorPickerViewController: UIViewController, ColorPicker {
                 self.dismiss(animated: true, completion: nil)
         })
         .disposed(by: disposeBag)
+    }
+}
+
+extension ColorPickerViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.bounds.width
+        let cellWidth = (width - 64.0) / 3
+        return CGSize(width: cellWidth, height: cellWidth)
     }
 }
