@@ -1,7 +1,7 @@
 platform :ios, '13.0'
 
 def testing_pods
-    pod 'Mockingjay', '3.0.0-alpha.1'
+    pod 'OHHTTPStubs'
 end
 
 target 'Test_bb' do
