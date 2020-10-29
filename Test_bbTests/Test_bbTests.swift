@@ -46,15 +46,21 @@ class Test_bbTests: XCTestCase {
         try super.tearDownWithError()
     }
 
-    func testExample() throws {
-        
+    func testHexColorValidity() throws {
+        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "000000"))
+        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "FFFFFF"))
+        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "CFCFCF"))
+        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "A1B2C3"))
+        XCTAssertFalse(UIColor.isValidHexColor(hexStr: "ABCD"))
+        XCTAssertFalse(UIColor.isValidHexColor(hexStr: "12345T"))
+        XCTAssertFalse(UIColor.isValidHexColor(hexStr: "1234567"))
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
+//    func testPerformanceExample() throws {
+//        // This is an example of a performance test case.
+//        self.measure {
+//            // Put the code you want to measure the time of here.
+//        }
+//    }
 
 }
