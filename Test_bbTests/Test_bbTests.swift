@@ -47,13 +47,28 @@ class Test_bbTests: XCTestCase {
     }
 
     func testHexColorValidity() throws {
+        // valid colors:
         XCTAssertTrue(UIColor.isValidHexColor(hexStr: "000000"))
         XCTAssertTrue(UIColor.isValidHexColor(hexStr: "FFFFFF"))
-        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "CFCFCF"))
+        XCTAssertTrue(UIColor.isValidHexColor(hexStr: "cfcfcf")) // should support lowercase too
         XCTAssertTrue(UIColor.isValidHexColor(hexStr: "A1B2C3"))
+        // invalid colors:
         XCTAssertFalse(UIColor.isValidHexColor(hexStr: "ABCD"))
         XCTAssertFalse(UIColor.isValidHexColor(hexStr: "12345T"))
         XCTAssertFalse(UIColor.isValidHexColor(hexStr: "1234567"))
+    }
+    
+    func testColorFormHExString() throws {
+        // valid color:
+        var color = UIColor.fromHexString(hexStr: "FFFFFF")
+        var (r, g, b, a) = (CGFloat(0), CGFloat(0), CGFloat(0), CGFloat(0))
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        XCTAssertTrue(r == 1.0 && g == 1.0 && b == 1.0 && a == 1.0, "FFFFFF should create UIColor with rgba coomponents: 1.0, 1.0, 1.0, 1.0")
+        
+        // invalid color:
+        color = UIColor.fromHexString(hexStr: "12345T")
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        XCTAssertTrue(r == 0.0 && g == 0.0 && b == 0.0 && a == 1.0, "Invalid colors should fall back to black color (0, 0, 0, 1)")
     }
 
 //    func testPerformanceExample() throws {
