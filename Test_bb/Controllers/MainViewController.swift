@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class MainViewController: UIViewController {
     
@@ -15,7 +16,7 @@ class MainViewController: UIViewController {
     @IBOutlet private weak var backgroundColorButton: UIButton!
     
     private let defaultTextColor = "CFCFCF"
-    private let defaultBackgroundColor = "000000"
+    private let defaultBackgroundColor = "FFFFFF"
     
     private var elementsHidden: Bool = false {
         didSet {
@@ -61,8 +62,11 @@ class MainViewController: UIViewController {
     private var colors: Colors? {
         didSet {
             setupColors()
+            setupEvents()
         }
     }
+    
+    let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,23 +126,36 @@ class MainViewController: UIViewController {
         elementsHidden = false
     }
     
-    @IBAction func pickColor(_ sender: UIButton) {
-        if textColorButton.isEqual(sender) {
-            selectColorFor(.text)
-            return
-        }
-        if backgroundColorButton.isEqual(sender) {
-            selectColorFor(.background)
-        }
+    func setupEvents() {
+        textColorButton.rx.tap.debounce(.milliseconds(5), scheduler: MainScheduler.instance)
+            .flatMapLatest { [unowned self] _ -> Observable<UIColor> in
+                return self.selectColorFor(.text)
+            }
+            .do(onNext: { [unowned self] _ in
+                self.dismiss(animated: true, completion: nil)
+            })
+            .subscribe(onNext: { [unowned self] (newColor) in
+                self.textColor = newColor
+            })
+            .disposed(by: disposeBag)
+        
+        backgroundColorButton.rx.tap.debounce(.milliseconds(5), scheduler: MainScheduler.instance)
+            .flatMapLatest { [unowned self] _ -> Observable<UIColor> in
+                return self.selectColorFor(.background)
+            }
+            .do(onNext: { [unowned self] _ in
+                self.dismiss(animated: true, completion: nil)
+            })
+            .subscribe(onNext: { [unowned self] (newColor) in
+                self.backgroundColor = newColor
+            })
+            .disposed(by: disposeBag)
     }
     
-    private func selectColorFor(_ type: ColorPickerType) {
-        guard let colors = type == .text ? textColors : backgroundColors else {
-            return
-        }
+    private func selectColorFor(_ type: ColorPickerType) -> PublishSubject<UIColor> {
+        let colors = (type == .text ? textColors : backgroundColors) ?? []
         
         let vc = ColorPickerViewController()
-        vc.colorPickerDelegate = self
         vc.type = type
         
         let disabledColor = type == .text ? backgroundColor : textColor
@@ -148,18 +165,7 @@ class MainViewController: UIViewController {
         })
         
         present(vc, animated: true, completion: nil)
-    }
-}
-
-extension MainViewController: ColorPickerDelegate {
-    func didPickColor(color: UIColor, forType type: ColorPickerType) {
-        switch type {
-        case .background:
-            backgroundColor = color
-            return
-        case .text:
-            textColor = color
-            return
-        }
+        
+        return vc.newColor
     }
 }

@@ -35,9 +35,6 @@
                         <constraint firstAttribute="height" constant="30" id="gdt-sc-D1V"/>
                     </constraints>
                     <state key="normal" title="Promijeni boju pozadine"/>
-                    <connections>
-                        <action selector="pickColor:" destination="-1" eventType="touchUpInside" id="zRE-rm-Seo"/>
-                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d1A-Tf-Hpi">
                     <rect key="frame" x="135.5" y="728" width="143" height="30"/>
@@ -45,9 +42,6 @@
                         <constraint firstAttribute="height" constant="30" id="MZa-Et-dz3"/>
                     </constraints>
                     <state key="normal" title="Promijeni boju teksta"/>
-                    <connections>
-                        <action selector="pickColor:" destination="-1" eventType="touchUpInside" id="ZT9-LX-gWQ"/>
-                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>

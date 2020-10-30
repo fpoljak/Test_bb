@@ -10,6 +10,12 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+
+public enum ColorPickerType {
+    case text
+    case background
+}
+
 private class ColorPickerCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -30,12 +36,11 @@ private class ColorPickerCollectionViewCell: UICollectionViewCell {
     }   
 }
 
-class ColorPickerViewController: UIViewController, ColorPicker {
+class ColorPickerViewController: UIViewController {
     
     @IBOutlet weak private var titleLabel: UILabel?
     @IBOutlet weak private var collectionView: UICollectionView?
     
-    weak var colorPickerDelegate: ColorPickerDelegate?
     var type: ColorPickerType = .text
     
     var colorObservable: Observable<[UIColor]>?
@@ -48,6 +53,8 @@ class ColorPickerViewController: UIViewController, ColorPicker {
     }
     
     let disposeBag = DisposeBag()
+    
+    let newColor = PublishSubject<UIColor>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,8 +96,8 @@ class ColorPickerViewController: UIViewController, ColorPicker {
                 .items(cellIdentifier: "ColorPickerCollectionViewCell",
                     cellType: ColorPickerCollectionViewCell.self)) { row, color, cell in
                         cell.contentView.backgroundColor = color
-        }
-        .disposed(by: disposeBag)
+            }
+            .disposed(by: disposeBag)
     }
     
     private func setupCellTapHandling() {
@@ -101,10 +108,9 @@ class ColorPickerViewController: UIViewController, ColorPicker {
             .rx
             .modelSelected(UIColor.self)
             .subscribe(onNext: { [unowned self] color in
-                self.colorPickerDelegate?.didPickColor(color: color, forType: self.type)
-                self.dismiss(animated: true, completion: nil)
-        })
-        .disposed(by: disposeBag)
+                self.newColor.onNext(color)
+            })
+            .disposed(by: disposeBag)
     }
 }
 

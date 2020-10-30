@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0581E8D2254BA365000F4F1F /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0581E8D1254BA365000F4F1F /* MainViewModel.swift */; };
 		0591A1972549C9C40036B7C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1962549C9C40036B7C6 /* AppDelegate.swift */; };
 		0591A1992549C9C40036B7C6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1982549C9C40036B7C6 /* SceneDelegate.swift */; };
 		0591A19B2549C9C40036B7C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A19A2549C9C40036B7C6 /* ViewController.swift */; };
@@ -21,7 +22,6 @@
 		0591A1D22549E16E0036B7C6 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1D12549E16E0036B7C6 /* Colors.swift */; };
 		0591A1D52549E4250036B7C6 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1D42549E4250036B7C6 /* ApiService.swift */; };
 		0591A1D72549E9780036B7C6 /* ColorsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1D62549E9780036B7C6 /* ColorsService.swift */; };
-		0591A1DA2549F3D60036B7C6 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1D92549F3D60036B7C6 /* ColorPicker.swift */; };
 		0591A1DD2549F6B40036B7C6 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1DB2549F6B40036B7C6 /* ColorPickerViewController.swift */; };
 		0591A1DE2549F6B40036B7C6 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0591A1DC2549F6B40036B7C6 /* ColorPickerViewController.xib */; };
 		0591A1E1254B58420036B7C6 /* interview.json in Resources */ = {isa = PBXBuildFile; fileRef = 0591A1E0254B58410036B7C6 /* interview.json */; };
@@ -47,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0581E8D1254BA365000F4F1F /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		0591A1932549C9C40036B7C6 /* Test_bb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test_bb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0591A1962549C9C40036B7C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0591A1982549C9C40036B7C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,7 +68,6 @@
 		0591A1D12549E16E0036B7C6 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		0591A1D42549E4250036B7C6 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		0591A1D62549E9780036B7C6 /* ColorsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsService.swift; sourceTree = "<group>"; };
-		0591A1D92549F3D60036B7C6 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		0591A1DB2549F6B40036B7C6 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		0591A1DC2549F6B40036B7C6 /* ColorPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorPickerViewController.xib; sourceTree = "<group>"; };
 		0591A1E0254B58410036B7C6 /* interview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = interview.json; sourceTree = "<group>"; };
@@ -144,7 +144,6 @@
 			children = (
 				0591A1D02549E1390036B7C6 /* Model */,
 				0591A1D32549E3E80036B7C6 /* Services */,
-				0591A1D82549F39A0036B7C6 /* Protocols */,
 				0591A1C62549D6CB0036B7C6 /* Extensions */,
 				0591A1CB2549D9880036B7C6 /* Controllers */,
 				0591A1962549C9C40036B7C6 /* AppDelegate.swift */,
@@ -189,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				0591A1CC2549D9BC0036B7C6 /* MainViewController.swift */,
+				0581E8D1254BA365000F4F1F /* MainViewModel.swift */,
 				0591A1CD2549D9BC0036B7C6 /* MainViewController.xib */,
 				0591A1DB2549F6B40036B7C6 /* ColorPickerViewController.swift */,
 				0591A1DC2549F6B40036B7C6 /* ColorPickerViewController.xib */,
@@ -211,14 +211,6 @@
 				0591A1D62549E9780036B7C6 /* ColorsService.swift */,
 			);
 			path = Services;
-			sourceTree = "<group>";
-		};
-		0591A1D82549F39A0036B7C6 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				0591A1D92549F3D60036B7C6 /* ColorPicker.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		0591A1DF254B577C0036B7C6 /* mocks */ = {
@@ -467,10 +459,10 @@
 				0591A1972549C9C40036B7C6 /* AppDelegate.swift in Sources */,
 				0591A1992549C9C40036B7C6 /* SceneDelegate.swift in Sources */,
 				0591A1C82549D6E80036B7C6 /* UIColor+Helpers.swift in Sources */,
-				0591A1DA2549F3D60036B7C6 /* ColorPicker.swift in Sources */,
 				0591A1D22549E16E0036B7C6 /* Colors.swift in Sources */,
 				0591A1D52549E4250036B7C6 /* ApiService.swift in Sources */,
 				0591A1CE2549D9BC0036B7C6 /* MainViewController.swift in Sources */,
+				0581E8D2254BA365000F4F1F /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
