@@ -74,7 +74,7 @@ class Test_bbTests: XCTestCase {
     }
     
     func testInitialSetup() {
-//        let exp = expectation(description: #function)
+        let exp = expectation(description: #function)
         
         let vc = MainViewController()
         vc.loadViewIfNeeded()
@@ -83,18 +83,32 @@ class Test_bbTests: XCTestCase {
         let view = vc.view!
         XCTAssertNotNil(view.backgroundColor)
         
-        let session = URLSession(configuration: .default)
-        let url = Bundle.main.url(forResource: "interview", withExtension: "json")
-        let (data, _, _) = session.synchronousDataTask(with: url!)
+        ColorsService.loadColors { response in
+            guard let colors = response?.colors else {
+                exp.isInverted = true
+                exp.fulfill()
+                return
+            }
+            vc.colors = colors
+            
+//            NSLog("colors: %@", colors.debugDescription)
+            
+            let testColors = "000000,ffffff,888888,ee3333,33ee33,11aaff"
+            
+            XCTAssertNotNil(view.backgroundColor)
+            XCTAssertNotNil(vc.backgroundColors)
+            XCTAssertNotNil(vc.textColors)
+            XCTAssertEqual(vc.colors!.backgroundColors.joined(separator: ","), testColors, "Background colors must match what we got from server")
+            XCTAssertEqual(vc.colors!.textColors.joined(separator: ","), testColors, "Text colors must match what we got from server")
+            XCTAssert(vc.backgroundColors!.contains(view.backgroundColor!), "Background color should be one of fetched colors")
+            XCTAssert(vc.textColors!.contains(vc.titleLabel.textColor!), "Text color should be one of fetched colors")
+            XCTAssertEqual(vc.titleLabel.textColor, vc.backgroundColorButton.titleColor(for: .normal), "All text colors must match")
+            XCTAssertEqual(vc.titleLabel.textColor, vc.textColorButton.titleColor(for: .normal), "All text colors must match")
+            
+            exp.fulfill()
+        }
         
-        let colors = try! ApiService.decoder.decode(Colors.self, from: data!)
-        vc.colors = colors
-        
-        XCTAssertNotNil(view.backgroundColor)
-        XCTAssertNotNil(vc.backgroundColors)
-        XCTAssert(vc.backgroundColors!.contains(view.backgroundColor!), "Background color should be one of fetched colors")
-        
-//        wait(for: [exp], timeout: 1.0)
+        wait(for: [exp], timeout: 1.0)
     }
 
 //    func testPerformanceExample() throws {
@@ -105,3 +119,4 @@ class Test_bbTests: XCTestCase {
 //    }
 
 }
+

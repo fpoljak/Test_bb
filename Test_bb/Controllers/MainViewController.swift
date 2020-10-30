@@ -10,9 +10,9 @@ import UIKit
 import RxSwift
 
 class MainViewController: UIViewController {
-    @IBOutlet private weak var titleLabel: UILabel!
-    @IBOutlet private weak var textColorButton: UIButton!
-    @IBOutlet private weak var backgroundColorButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var textColorButton: UIButton!
+    @IBOutlet weak var backgroundColorButton: UIButton!
     
     private let defaultTextColor = "CFCFCF"
     private let defaultBackgroundColor = "FFFFFF"
