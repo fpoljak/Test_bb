@@ -10,7 +10,6 @@ import UIKit
 import RxSwift
 
 class MainViewController: UIViewController {
-    
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var textColorButton: UIButton!
     @IBOutlet private weak var backgroundColorButton: UIButton!
@@ -67,7 +66,10 @@ class MainViewController: UIViewController {
     }
     
     let disposeBag = DisposeBag()
+}
 
+//MARK: View lifecycle
+extension MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,7 +81,10 @@ class MainViewController: UIViewController {
         
         loadColors()
     }
-    
+}
+
+//MARK: Data loading
+extension MainViewController {
     private func loadColors() {
         ColorsService.loadColors { [weak self] (response) in
             guard let response = response else {
@@ -94,7 +99,10 @@ class MainViewController: UIViewController {
             this.colors = response.colors
         }
     }
-    
+}
+
+//MARK: Setup
+extension MainViewController {
     private func setupColors() {
         guard let colors = colors else {
             elementsHidden = true
@@ -115,10 +123,11 @@ class MainViewController: UIViewController {
             return UIColor.fromHexString(hexStr: c)
         })
         
+        // initial colors
         let backgroundColor = backgroundColors.randomElement() ?? defaultTextColor // fallback if empty array received
         let textColor = textColors.filter({ (c) -> Bool in
             return !c.elementsEqual(backgroundColor)
-        }).randomElement() ?? defaultBackgroundColor
+        }).randomElement() ?? defaultBackgroundColor // fallback if empty array received
         
         self.backgroundColor = UIColor.fromHexString(hexStr: backgroundColor)
         self.textColor = UIColor.fromHexString(hexStr: textColor)

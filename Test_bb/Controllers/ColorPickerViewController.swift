@@ -37,7 +37,6 @@ private class ColorPickerCollectionViewCell: UICollectionViewCell {
 }
 
 class ColorPickerViewController: UIViewController {
-    
     @IBOutlet weak private var titleLabel: UILabel?
     @IBOutlet weak private var collectionView: UICollectionView?
     
@@ -55,7 +54,10 @@ class ColorPickerViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     let newColor = PublishSubject<UIColor>()
-    
+}
+
+//MARK: View lifecycle
+extension ColorPickerViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,7 +69,10 @@ class ColorPickerViewController: UIViewController {
         
         setup()
     }
-    
+}
+
+//MARK: Setup
+extension ColorPickerViewController {
     private func setup() {
         guard colors.count > 0 else {
             return
@@ -114,8 +119,10 @@ class ColorPickerViewController: UIViewController {
     }
 }
 
+//MARK: Collection view layout
 extension ColorPickerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         let width = collectionView.bounds.width
         let cellWidth = (width - 64.0) / 3
         return CGSize(width: cellWidth, height: cellWidth)
