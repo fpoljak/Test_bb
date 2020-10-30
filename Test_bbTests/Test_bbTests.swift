@@ -10,7 +10,7 @@ import XCTest
 import RxSwift
 import RxCocoa
 import RxTest
-import RxBlocking
+//import RxBlocking
 import OHHTTPStubs
 
 @testable import Test_bb
@@ -24,9 +24,12 @@ class Test_bbTests: XCTestCase {
         try super.setUpWithError()
         scheduler = TestScheduler(initialClock: 0)
         disposeBag = DisposeBag()
+        
+        // enable mocking api calls
         HTTPStubs.setEnabled(true)
         let host = URL(string: ApiService.baseUrl)!.host!
         stub(condition: isHost(host)) { request in
+            // loook for .json file in mocks folder
             if let endpoint = request.url?.lastPathComponent {
                 var filename = endpoint
                 if !filename.hasSuffix(".json") {

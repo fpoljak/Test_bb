@@ -22,3 +22,8 @@ target 'Test_bbTests' do
     shared_pods
     testing_pods
 end
+
+target 'Test_bbUITests' do
+    use_frameworks!
+    pod 'Swifter', '~> 1.5.0'
+end

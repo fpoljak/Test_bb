@@ -109,25 +109,17 @@ extension MainViewController {
             return
         }
         
-        let backgroundColors = colors.backgroundColors.filter { (c) -> Bool in
-            return UIColor.isValidHexColor(hexStr: c)
-        }
-        let textColors = colors.textColors.filter { (c) -> Bool in
-            return UIColor.isValidHexColor(hexStr: c)
-        }
+        let backgroundColors = colors.backgroundColors.filter { UIColor.isValidHexColor(hexStr: $0) }
+        let textColors = colors.textColors.filter { UIColor.isValidHexColor(hexStr: $0) }
         
-        self.backgroundColors = backgroundColors.map({ (c) -> UIColor in
-            return UIColor.fromHexString(hexStr: c)
-        })
-        self.textColors = textColors.map({ (c) -> UIColor in
-            return UIColor.fromHexString(hexStr: c)
-        })
+        self.backgroundColors = backgroundColors.map { UIColor.fromHexString(hexStr: $0) }
+        self.textColors = textColors.map { UIColor.fromHexString(hexStr: $0) }
         
         // initial colors
         let backgroundColor = backgroundColors.randomElement() ?? defaultTextColor // fallback if empty array received
-        let textColor = textColors.filter({ (c) -> Bool in
-            return !c.elementsEqual(backgroundColor)
-        }).randomElement() ?? defaultBackgroundColor // fallback if empty array received
+        let textColor = textColors
+            .filter({ !$0.elementsEqual(backgroundColor) })
+            .randomElement() ?? defaultBackgroundColor // fallback if empty array received
         
         self.backgroundColor = UIColor.fromHexString(hexStr: backgroundColor)
         self.textColor = UIColor.fromHexString(hexStr: textColor)
@@ -169,9 +161,7 @@ extension MainViewController {
         
         let disabledColor = type == .text ? backgroundColor : textColor
         
-        vc.colors = colors.filter({ (c) -> Bool in
-            return !c.isEqual(disabledColor)
-        })
+        vc.colors = colors.filter({ !$0.isEqual(disabledColor) })
         
         present(vc, animated: true, completion: nil)
         

@@ -11,7 +11,15 @@ import Alamofire
 
 public class ApiService {
     
-    static var baseUrl: String = "https://d2t41j3b4bctaz.cloudfront.net"
+    static var baseUrl: String {
+        get {
+            if ProcessInfo.processInfo.arguments.contains("TESTING") {
+                return "http://localhost:8080"
+            } else {
+                return "https://d2t41j3b4bctaz.cloudfront.net"
+            }
+        }
+    }
     
     private static var sessionManager: Session = {
         let configuration = URLSessionConfiguration.default
