@@ -55,10 +55,10 @@ class MainViewController: UIViewController {
         }
     }
     
-    private var backgroundColors: [UIColor]?
-    private var textColors: [UIColor]?
+    var backgroundColors: [UIColor]?
+    var textColors: [UIColor]?
     
-    private var colors: Colors? {
+    var colors: Colors? {
         didSet {
             setupColors()
             setupEvents()

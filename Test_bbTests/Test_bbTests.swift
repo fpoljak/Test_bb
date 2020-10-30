@@ -71,6 +71,30 @@ class Test_bbTests: XCTestCase {
         color.getRed(&r, green: &g, blue: &b, alpha: &a)
         XCTAssertTrue(r == 0.0 && g == 0.0 && b == 0.0 && a == 1.0, "Invalid colors should fall back to black color (0, 0, 0, 1)")
     }
+    
+    func testInitialSetup() {
+//        let exp = expectation(description: #function)
+        
+        let vc = MainViewController()
+        vc.loadViewIfNeeded()
+        vc.viewDidLoad()
+        
+        let view = vc.view!
+        XCTAssertNotNil(view.backgroundColor)
+        
+        let session = URLSession(configuration: .default)
+        let url = Bundle.main.url(forResource: "interview", withExtension: "json") // , subdirectory: "Test_bbTests/mocks"
+        let (data, _, _) = session.synchronousDataTask(with: url!)
+        
+        let colors = try! ApiService.decoder.decode(Colors.self, from: data!)
+        vc.colors = colors
+        
+        XCTAssertNotNil(view.backgroundColor)
+        XCTAssertNotNil(vc.backgroundColors)
+        XCTAssert(vc.backgroundColors!.contains(view.backgroundColor!), "Background color should be one of fetched colors")
+        
+//        wait(for: [exp], timeout: 1.0)
+    }
 
 //    func testPerformanceExample() throws {
 //        // This is an example of a performance test case.
