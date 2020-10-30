@@ -20,6 +20,6 @@ struct ColorsResponse: Codable {
 
 extension Colors: CustomDebugStringConvertible {
     var debugDescription: String {
-        return "[Colors]\nbackgroundColors: \(backgroundColors.debugDescription)\ntextColors:\(textColors.debugDescription)"
+        return "[Colors]\r\nbackgroundColors: \(backgroundColors.debugDescription)\r\ntextColors:\(textColors.debugDescription)"
     }
 }
