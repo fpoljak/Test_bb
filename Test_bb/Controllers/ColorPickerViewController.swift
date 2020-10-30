@@ -53,7 +53,7 @@ class ColorPickerViewController: UIViewController {
     
     let disposeBag = DisposeBag()
     
-    let newColor = PublishSubject<UIColor>()
+    let selectedColor = PublishSubject<UIColor>()
 }
 
 //MARK: View lifecycle
@@ -113,7 +113,7 @@ extension ColorPickerViewController {
             .rx
             .modelSelected(UIColor.self)
             .subscribe(onNext: { [unowned self] color in
-                self.newColor.onNext(color)
+                self.selectedColor.onNext(color)
             })
             .disposed(by: disposeBag)
     }

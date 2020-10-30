@@ -175,6 +175,6 @@ extension MainViewController {
         
         present(vc, animated: true, completion: nil)
         
-        return vc.newColor
+        return vc.selectedColor
     }
 }

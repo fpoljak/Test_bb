@@ -39,6 +39,7 @@ class Test_bbTests: XCTestCase {
             let data = "{}".data(using: String.Encoding.utf8)
             return HTTPStubsResponse(data: data!, statusCode: 200, headers: ["Content-Type":"application/json"])
         }
+        continueAfterFailure = false
     }
 
     override func tearDownWithError() throws {
@@ -83,7 +84,7 @@ class Test_bbTests: XCTestCase {
         XCTAssertNotNil(view.backgroundColor)
         
         let session = URLSession(configuration: .default)
-        let url = Bundle.main.url(forResource: "interview", withExtension: "json") // , subdirectory: "Test_bbTests/mocks"
+        let url = Bundle.main.url(forResource: "interview", withExtension: "json")
         let (data, _, _) = session.synchronousDataTask(with: url!)
         
         let colors = try! ApiService.decoder.decode(Colors.self, from: data!)
