@@ -127,22 +127,15 @@ extension MainViewController {
         elementsHidden = false
     }
     
-    func setupEvents() {
-        textColorButton.rx.tap.debounce(.milliseconds(5), scheduler: MainScheduler.instance)
+    private func setupEvents() {
+        setColorPickerOpenOnTapForButton(textColorButton, colorPickerType: .text)
+        setColorPickerOpenOnTapForButton(backgroundColorButton, colorPickerType: .background)
+    }
+    
+    private func setColorPickerOpenOnTapForButton(_ button: UIButton, colorPickerType type: ColorPickerType) {
+        button.rx.tap.debounce(.milliseconds(5), scheduler: MainScheduler.instance)
             .flatMapLatest { [unowned self] _ -> Observable<UIColor> in
-                return self.selectColorFor(.text)
-            }
-            .do(onNext: { [unowned self] _ in
-                self.dismiss(animated: true, completion: nil)
-            })
-            .subscribe(onNext: { [unowned self] (newColor) in
-                self.textColor = newColor
-            })
-            .disposed(by: disposeBag)
-        
-        backgroundColorButton.rx.tap.debounce(.milliseconds(5), scheduler: MainScheduler.instance)
-            .flatMapLatest { [unowned self] _ -> Observable<UIColor> in
-                return self.selectColorFor(.background)
+                return self.selectColorFor(type)
             }
             .do(onNext: { [unowned self] _ in
                 self.dismiss(animated: true, completion: nil)
