@@ -16,24 +16,25 @@ class Test_bbUITests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         
+        continueAfterFailure = false
+        
         server = HttpServer()
+        server.stubRequestsForEndpoint("interview.json")
         try server.start()
         
-        continueAfterFailure = false
         app = XCUIApplication()
         app.launchArguments += ["TESTING"]
+        
+        app.launch()
     }
 
     override func tearDownWithError() throws {
-//        server.stop()
+        server.stop()
         try super.tearDownWithError()
     }
 
     func testExample() throws {
-        server.stubRequestsForEndpoint("interview.json")
-        app.launch()
-        
-        let label = app.staticTexts.element.firstMatch
+        let label = app.staticTexts.matching(identifier: "main_title_label").firstMatch
         
         let textColorButton = app.buttons["Promijeni boju teksta"]
         let backgroundColorButton = app.buttons["Promijeni boju pozadine"]
@@ -42,9 +43,33 @@ class Test_bbUITests: XCTestCase {
         
         expectation(for: exists, evaluatedWith: textColorButton, handler: nil)
         expectation(for: exists, evaluatedWith: backgroundColorButton, handler: nil)
-        waitForExpectations(timeout: 5, handler: nil)
         
-        textColorButton.tap()
+        waitForExpectations(timeout: 5.0) { [unowned self] error in
+            guard error == nil else {
+                return
+            }
+            
+            XCTAssertEqual(label.label, "Title text")
+            
+            textColorButton.tap()
+            
+            let label = self.app.staticTexts.matching(identifier: "colorpicker_title_label").firstMatch
+            let cells = self.app.collectionViews.cells //.matching(identifier: "ColorPickerCollectionViewCell") // doesn't work with identifier!
+            let firstCell = cells.firstMatch
+            
+            self.expectation(for: exists, evaluatedWith: firstCell, handler: nil)
+            
+            self.waitForExpectations(timeout: 1.0, handler: { error in
+                guard error == nil else {
+                    return
+                }
+                XCTAssertEqual(label.label, "Odaberi boju teksta")
+                XCTAssertEqual(cells.count, 5, "There should be 5 colors to choose from")
+                
+                cells.element(boundBy: Int.random(in: 0...4)).tap() // tap on any cell, beehaviour should be identical (we don't test colors here
+                
+            })
+        }
     }
 
 //    func testLaunchPerformance() throws {
@@ -64,46 +89,15 @@ extension HttpServer {
             filename = String(filename.dropLast(5))
         }
         
-        NSLog("filename: %@", filename)
-        
         self["/" + endpoint] = { _ in
-            NSLog("loading")
-//            let url = Bundle.main.resourceURL!.appendingPathComponent(filename)
-            let url = Bundle.main.url(forResource: filename, withExtension: "json")
-            let session = URLSession(configuration: .default)
-            NSLog("loading json...")
-            let (data, _, _) = session.synchronousDataTask(with: url!)
-            NSLog("Data: %@", data?.debugDescription ?? "null")
-            
-            guard let jsonData = data, let json = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) else {
-                assertionFailure("Could not convert data to json")
+            guard let url = Bundle(for: Test_bbUITests.self).url(forResource: filename, withExtension: "json") else {
+                return HttpResponse.ok(.json("{}".data(using: .utf8) as AnyObject))
+            }
+            guard let data = try? Data(contentsOf: url) else {
                 return HttpResponse.ok(.json("{}".data(using: .utf8) as AnyObject))
             }
             
-            return HttpResponse.ok(.json(json as AnyObject))
+            return HttpResponse.ok(.data(data, contentType: "application/json"))
         }
-    }
-}
-
-extension URLSession {
-    func synchronousDataTask(with url: URL) -> (Data?, URLResponse?, Error?) {
-        var data: Data?
-        var response: URLResponse?
-        var error: Error?
-
-        let semaphore = DispatchSemaphore(value: 0)
-
-        let dataTask = self.dataTask(with: url) {
-            data = $0
-            response = $1
-            error = $2
-
-            semaphore.signal()
-        }
-        dataTask.resume()
-
-        _ = semaphore.wait(timeout: .distantFuture)
-
-        return (data, response, error)
     }
 }
