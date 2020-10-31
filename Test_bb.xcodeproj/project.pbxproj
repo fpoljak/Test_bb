@@ -26,6 +26,7 @@
 		0591A1DE2549F6B40036B7C6 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0591A1DC2549F6B40036B7C6 /* ColorPickerViewController.xib */; };
 		05D74071254BDF65003784B6 /* interview.json in Resources */ = {isa = PBXBuildFile; fileRef = 05D74070254BDF65003784B6 /* interview.json */; };
 		05D74072254BDF65003784B6 /* interview.json in Resources */ = {isa = PBXBuildFile; fileRef = 05D74070254BDF65003784B6 /* interview.json */; };
+		05D74073254D2137003784B6 /* interview.json in Resources */ = {isa = PBXBuildFile; fileRef = 05D74070254BDF65003784B6 /* interview.json */; };
 		284C7479631F61E888E11312 /* Pods_Test_bbTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B4CC7BC345D5D01216FE1E7 /* Pods_Test_bbTests.framework */; };
 		D73B285286C4889B58FC5106 /* Pods_Test_bbUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 681770BB2B9746DEB87F071A /* Pods_Test_bbUITests.framework */; };
 		DE258673F9DC682A7884219D /* Pods_Test_bb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CC8F54C6A3A1CCE6343B866D /* Pods_Test_bb.framework */; };
@@ -354,6 +355,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0591A1A32549C9C60036B7C6 /* LaunchScreen.storyboard in Resources */,
+				05D74073254D2137003784B6 /* interview.json in Resources */,
 				0591A1A02549C9C60036B7C6 /* Assets.xcassets in Resources */,
 				0591A1DE2549F6B40036B7C6 /* ColorPickerViewController.xib in Resources */,
 				0591A19E2549C9C40036B7C6 /* Main.storyboard in Resources */,

@@ -31,6 +31,7 @@
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aqr-n3-nrr">
                     <rect key="frame" x="207" y="94" width="0.0" height="21"/>
+                    <accessibility key="accessibilityConfiguration" identifier="colorpicker_title_label"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="Amf-qa-5GY"/>
                     </constraints>
