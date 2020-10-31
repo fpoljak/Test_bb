@@ -141,7 +141,12 @@ extension MainViewController {
                 self.dismiss(animated: true, completion: nil)
             })
             .subscribe(onNext: { [unowned self] (newColor) in
-                self.backgroundColor = newColor
+                switch(type) {
+                case .text:
+                    self.textColor = newColor
+                case .background:
+                    self.backgroundColor = newColor
+                }
             })
             .disposed(by: disposeBag)
     }
