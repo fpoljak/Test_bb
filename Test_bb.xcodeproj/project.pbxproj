@@ -153,7 +153,6 @@
 				0591A1C62549D6CB0036B7C6 /* Extensions */,
 				0591A1D32549E3E80036B7C6 /* Services */,
 				0591A1D02549E1390036B7C6 /* Model */,
-				05A210F4254FC2E1001816F8 /* ViewModel */,
 				0591A1CB2549D9880036B7C6 /* Controllers */,
 				0591A1962549C9C40036B7C6 /* AppDelegate.swift */,
 				0591A1982549C9C40036B7C6 /* SceneDelegate.swift */,
@@ -196,6 +195,7 @@
 		0591A1CB2549D9880036B7C6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				05A210F4254FC2E1001816F8 /* ViewModel */,
 				0591A1CC2549D9BC0036B7C6 /* MainViewController.swift */,
 				0591A1CD2549D9BC0036B7C6 /* MainViewController.xib */,
 				0591A1DB2549F6B40036B7C6 /* ColorPickerViewController.swift */,
