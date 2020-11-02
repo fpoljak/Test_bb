@@ -72,7 +72,7 @@ class Test_bbUITests: XCTestCase {
                     
                     if isText {
                         self.expectation(for: exists, evaluatedWith: button, handler: nil)
-                        self.waitForExpectations(timeout: 1.0, handler: { error in
+                        self.waitForExpectations(timeout: 3.0, handler: { error in
                             testColorPicker(backgroundColorButton, false)
                         })
                     }

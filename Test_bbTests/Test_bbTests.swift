@@ -94,13 +94,25 @@ class Test_bbTests: XCTestCase {
     func testColors() throws {
         let vc = MainViewController()
         vc.loadViewIfNeeded()
-        vc.viewDidLoad()
         
         _ = try vc.viewModel.loadColors().toBlocking().first()
         
         XCTAssert(vc.viewModel._textColors.value.contains(vc.titleLabel.textColor!), "Text color should be one of fetched colors")
         XCTAssertEqual(vc.titleLabel.textColor, vc.backgroundColorButton.titleColor(for: .normal), "All text colors must match")
         XCTAssertEqual(vc.titleLabel.textColor, vc.textColorButton.titleColor(for: .normal), "All text colors must match")
+    }
+    
+    func testColorPicker() throws {
+        let hexColors = ["000000", "FFFFFF", "cfcfcf", "A1B2C3", "123456"]
+        let vc = ColorPickerViewController()
+        vc.colors = hexColors.map({ UIColor.fromHexString(hexStr: $0) })
+        vc.loadViewIfNeeded()
+        
+        XCTAssertNotNil(vc.colorObservable, "Color observable should not be null")
+        let blockingColorObservable = vc.colorObservable!.toBlocking()
+        XCTAssertEqual(vc.colors, try blockingColorObservable.first())
+        
+        
     }
 
 //    func testPerformanceExample() throws {

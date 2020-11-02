@@ -33,7 +33,11 @@ private class ColorPickerCollectionViewCell: UICollectionViewCell {
         layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
         layer.shadowRadius = 2.0
         layer.shadowOpacity = 0.15
-    }   
+    }
+    
+    func configureWithColor(_ color: UIColor) {
+        contentView.backgroundColor = color
+    }
 }
 
 class ColorPickerViewController: UIViewController {
@@ -100,7 +104,7 @@ extension ColorPickerViewController {
                 .rx
                 .items(cellIdentifier: "ColorPickerCollectionViewCell",
                     cellType: ColorPickerCollectionViewCell.self)) { row, color, cell in
-                        cell.contentView.backgroundColor = color
+                        cell.configureWithColor(color)
             }
             .disposed(by: disposeBag)
     }
