@@ -40,14 +40,6 @@ class MainViewModel {
         return _title.asDriver()
     }
     
-    var backgroundColors: Driver<[UIColor]> {
-        return _backgroundColors.asDriver()
-    }
-    
-    var textColors: Driver<[UIColor]> {
-        return _textColors.asDriver()
-    }
-    
     var colors: Driver<Colors?> {
         return _colors.asDriver()
     }
@@ -66,6 +58,7 @@ class MainViewModel {
             
             this._title.accept(response.title)
             this._colors.accept(response.colors)
+            this.setupColors()
         }
     }
     

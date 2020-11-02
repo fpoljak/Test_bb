@@ -14,56 +14,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var textColorButton: UIButton!
     @IBOutlet weak var backgroundColorButton: UIButton!
     
-    private let defaultTextColor = "CFCFCF"
-    private let defaultBackgroundColor = "FFFFFF"
-    
-    private var elementsHidden: Bool = false {
-        didSet {
-            titleLabel?.isHidden = elementsHidden
-            textColorButton?.isHidden = elementsHidden
-            backgroundColorButton?.isHidden = elementsHidden
-        }
-    }
-    
-    private var backgroundColor: UIColor? {
-        get {
-            return view.backgroundColor
-        }
-        set {
-            view.backgroundColor = newValue
-        }
-    }
-    
-    private var textColor: UIColor! {
-        get {
-            return titleLabel.textColor
-        }
-        set {
-            titleLabel.textColor = newValue
-            textColorButton.setTitleColor(newValue, for: .normal)
-            backgroundColorButton.setTitleColor(newValue, for: .normal)
-        }
-    }
-    
-    private var _title: String? {
-        get {
-            return titleLabel.text
-        }
-        set {
-            titleLabel.text = newValue
-            titleLabel.sizeToFit()
-        }
-    }
-    
-    var backgroundColors: [UIColor]?
-    var textColors: [UIColor]?
-    
-    var colors: Colors? {
-        didSet {
-            setupColors()
-            setupEvents()
-        }
-    }
+    var viewModel: MainViewModel!
     
     let disposeBag = DisposeBag()
 }
@@ -73,58 +24,44 @@ extension MainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // show white background initially
-        backgroundColor = .white
+        viewModel = MainViewModel()
         
-        // hide elements initially until we load a list of colors
-        elementsHidden = true
+        initialSetup()
         
-        loadColors()
-    }
-}
-
-//MARK: Data loading
-extension MainViewController {
-    private func loadColors() {
-        ColorsService.loadColors { [weak self] (response) in
-            guard let response = response else {
-                // show some error message
-                return
-            }
-            guard let this = self else {
-                return
-            }
-            
-            this._title = response.title
-            this.colors = response.colors
-        }
+        viewModel.loadColors()
     }
 }
 
 //MARK: Setup
 extension MainViewController {
-    private func setupColors() {
-        guard let colors = colors else {
-            elementsHidden = true
-            return
-        }
+    func initialSetup() {
+        viewModel.elementsHidden.drive(onNext: { [unowned self] newValue in
+            self.titleLabel?.isHidden = newValue
+            self.textColorButton?.isHidden = newValue
+            self.backgroundColorButton?.isHidden = newValue
+        }).disposed(by: disposeBag)
         
-        let backgroundColors = colors.backgroundColors.filter { UIColor.isValidHexColor(hexStr: $0) }
-        let textColors = colors.textColors.filter { UIColor.isValidHexColor(hexStr: $0) }
+        viewModel.backgroundColor.drive(onNext: { [unowned self] newValue in
+            self.view.backgroundColor = newValue
+        }).disposed(by: disposeBag)
         
-        self.backgroundColors = backgroundColors.map { UIColor.fromHexString(hexStr: $0) }
-        self.textColors = textColors.map { UIColor.fromHexString(hexStr: $0) }
+        viewModel.textColor.drive(onNext: { [unowned self] newValue in
+            self.titleLabel.textColor = newValue
+            self.textColorButton.setTitleColor(newValue, for: .normal)
+            self.backgroundColorButton.setTitleColor(newValue, for: .normal)
+        }).disposed(by: disposeBag)
         
-        // initial colors
-        let backgroundColor = backgroundColors.randomElement() ?? defaultTextColor // fallback if empty array received
-        let textColor = textColors
-            .filter({ !$0.elementsEqual(backgroundColor) })
-            .randomElement() ?? defaultBackgroundColor // fallback if empty array received
+        viewModel.title.drive(onNext: { [unowned self] newValue in
+            self.titleLabel.text = newValue
+            self.titleLabel.sizeToFit()
+        }).disposed(by: disposeBag)
         
-        self.backgroundColor = UIColor.fromHexString(hexStr: backgroundColor)
-        self.textColor = UIColor.fromHexString(hexStr: textColor)
-        
-        elementsHidden = false
+        viewModel.colors.drive(onNext: { [unowned self] newValue in
+            guard let _ = newValue else {
+                return
+            }
+            self.setupEvents()
+        }).disposed(by: disposeBag)
     }
     
     private func setupEvents() {
@@ -143,21 +80,21 @@ extension MainViewController {
             .subscribe(onNext: { [unowned self] (newColor) in
                 switch(type) {
                 case .text:
-                    self.textColor = newColor
+                    self.viewModel._textColor.accept(newColor)
                 case .background:
-                    self.backgroundColor = newColor
+                    self.viewModel._backgroundColor.accept(newColor)
                 }
             })
             .disposed(by: disposeBag)
     }
     
     private func selectColorFor(_ type: ColorPickerType) -> PublishSubject<UIColor> {
-        let colors = (type == .text ? textColors : backgroundColors) ?? []
+        let colors = type == .text ? viewModel._textColors.value : viewModel._backgroundColors.value
         
         let vc = ColorPickerViewController()
         vc.type = type
         
-        let disabledColor = type == .text ? backgroundColor : textColor
+        let disabledColor = type == .text ? self.viewModel._backgroundColor.value : self.viewModel._textColor.value
         
         vc.colors = colors.filter({ !$0.isEqual(disabledColor) })
         
