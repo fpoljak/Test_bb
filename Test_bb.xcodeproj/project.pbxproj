@@ -24,6 +24,7 @@
 		0591A1D72549E9780036B7C6 /* ColorsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1D62549E9780036B7C6 /* ColorsService.swift */; };
 		0591A1DD2549F6B40036B7C6 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0591A1DB2549F6B40036B7C6 /* ColorPickerViewController.swift */; };
 		0591A1DE2549F6B40036B7C6 /* ColorPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0591A1DC2549F6B40036B7C6 /* ColorPickerViewController.xib */; };
+		05A210F6254FC304001816F8 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A210F5254FC304001816F8 /* MainViewModel.swift */; };
 		05D74071254BDF65003784B6 /* interview.json in Resources */ = {isa = PBXBuildFile; fileRef = 05D74070254BDF65003784B6 /* interview.json */; };
 		05D74072254BDF65003784B6 /* interview.json in Resources */ = {isa = PBXBuildFile; fileRef = 05D74070254BDF65003784B6 /* interview.json */; };
 		05D74073254D2137003784B6 /* interview.json in Resources */ = {isa = PBXBuildFile; fileRef = 05D74070254BDF65003784B6 /* interview.json */; };
@@ -73,6 +74,7 @@
 		0591A1D62549E9780036B7C6 /* ColorsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsService.swift; sourceTree = "<group>"; };
 		0591A1DB2549F6B40036B7C6 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		0591A1DC2549F6B40036B7C6 /* ColorPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorPickerViewController.xib; sourceTree = "<group>"; };
+		05A210F5254FC304001816F8 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		05D74070254BDF65003784B6 /* interview.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = interview.json; sourceTree = "<group>"; };
 		3410A2355A3B7C90AC27E1D1 /* Pods-Test_bbUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test_bbUITests.release.xcconfig"; path = "Target Support Files/Pods-Test_bbUITests/Pods-Test_bbUITests.release.xcconfig"; sourceTree = "<group>"; };
 		469D72EBEFC7255968B061BB /* Pods-Test_bbUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test_bbUITests.debug.xcconfig"; path = "Target Support Files/Pods-Test_bbUITests/Pods-Test_bbUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -150,9 +152,10 @@
 		0591A1952549C9C40036B7C6 /* Test_bb */ = {
 			isa = PBXGroup;
 			children = (
-				0591A1D02549E1390036B7C6 /* Model */,
-				0591A1D32549E3E80036B7C6 /* Services */,
 				0591A1C62549D6CB0036B7C6 /* Extensions */,
+				0591A1D32549E3E80036B7C6 /* Services */,
+				0591A1D02549E1390036B7C6 /* Model */,
+				05A210F4254FC2E1001816F8 /* ViewModel */,
 				0591A1CB2549D9880036B7C6 /* Controllers */,
 				0591A1962549C9C40036B7C6 /* AppDelegate.swift */,
 				0591A1982549C9C40036B7C6 /* SceneDelegate.swift */,
@@ -227,6 +230,14 @@
 				05D74070254BDF65003784B6 /* interview.json */,
 			);
 			path = mocks;
+			sourceTree = "<group>";
+		};
+		05A210F4254FC2E1001816F8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				05A210F5254FC304001816F8 /* MainViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		9F8734265797875AA893828E /* Pods */ = {
@@ -511,6 +522,7 @@
 				0591A1D72549E9780036B7C6 /* ColorsService.swift in Sources */,
 				0591A1972549C9C40036B7C6 /* AppDelegate.swift in Sources */,
 				0591A1992549C9C40036B7C6 /* SceneDelegate.swift in Sources */,
+				05A210F6254FC304001816F8 /* MainViewModel.swift in Sources */,
 				0591A1C82549D6E80036B7C6 /* UIColor+Helpers.swift in Sources */,
 				0591A1D22549E16E0036B7C6 /* Colors.swift in Sources */,
 				0591A1D52549E4250036B7C6 /* ApiService.swift in Sources */,

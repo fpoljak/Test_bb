@@ -37,8 +37,8 @@ private class ColorPickerCollectionViewCell: UICollectionViewCell {
 }
 
 class ColorPickerViewController: UIViewController {
-    @IBOutlet weak private var titleLabel: UILabel?
-    @IBOutlet weak private var collectionView: UICollectionView?
+    @IBOutlet weak var titleLabel: UILabel?
+    @IBOutlet weak var collectionView: UICollectionView?
     
     var type: ColorPickerType = .text
     
