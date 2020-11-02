@@ -51,4 +51,45 @@ class MainViewModel {
     var colors: Driver<Colors?> {
         return _colors.asDriver()
     }
+    
+    init() { }
+    
+    func loadColors() {
+        ColorsService.loadColors { [weak self] (response) in
+            guard let response = response else {
+                // show some error message
+                return
+            }
+            guard let this = self else {
+                return
+            }
+            
+            this._title.accept(response.title)
+            this._colors.accept(response.colors)
+        }
+    }
+    
+    private func setupColors() {
+        guard let colors = _colors.value else {
+            _elementsHidden.accept(true)
+            return
+        }
+        
+        let backgroundColors = colors.backgroundColors.filter { UIColor.isValidHexColor(hexStr: $0) }
+        let textColors = colors.textColors.filter { UIColor.isValidHexColor(hexStr: $0) }
+        
+        _backgroundColors.accept(backgroundColors.map { UIColor.fromHexString(hexStr: $0) })
+        _textColors.accept(textColors.map { UIColor.fromHexString(hexStr: $0) })
+        
+        // initial colors
+        let backgroundColor = backgroundColors.randomElement() ?? MainViewModel.defaultTextColor // fallback if empty array received
+        let textColor = textColors
+            .filter({ !$0.elementsEqual(backgroundColor) })
+            .randomElement() ?? MainViewModel.defaultBackgroundColor // fallback if empty array received
+        
+        _backgroundColor.accept(UIColor.fromHexString(hexStr: backgroundColor))
+        _textColor.accept(UIColor.fromHexString(hexStr: textColor))
+        
+        _elementsHidden.accept(false)
+    }
 }
