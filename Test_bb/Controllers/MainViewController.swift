@@ -62,6 +62,9 @@ extension MainViewController {
             }
             self.setupEvents()
         }).disposed(by: disposeBag)
+        
+        viewModel._backgroundColor.accept(.white)
+        viewModel._elementsHidden.accept(true)
     }
     
     private func setupEvents() {

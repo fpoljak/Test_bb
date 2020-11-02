@@ -8,9 +8,9 @@
 
 import Foundation
 import Alamofire
+import RxSwift
 
 public class ApiService {
-    
     static var baseUrl: String {
         get {
             if ProcessInfo.processInfo.arguments.contains("TESTING") {
@@ -49,55 +49,38 @@ public class ApiService {
     }
     
     @discardableResult
-    static private func genericRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any]?, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void) -> DataRequest {
+    static func genericRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any]? = nil, responseType: T.Type) -> Observable<T?> {
+        return Observable.create { observer -> Disposable in
         
-        let fullUrl = baseUrl + "/" + endpoint
-        let encoding: ParameterEncoding = method == .get ? URLEncoding.default : JSONEncoding.default
-        
-        let request = sessionManager.request(fullUrl, method: method, parameters: params, encoding: encoding, headers: getHeaders())
-        
-        request.responseDecodable(of: T.self, decoder: decoder) { (response: DataResponse<T, AFError>) in
-            if let error = response.error {
-                let nsError = error.underlyingError as NSError?
-                if nsError?.code == -999 { // cancelled
+            let fullUrl = baseUrl + "/" + endpoint
+            let encoding: ParameterEncoding = method == .get ? URLEncoding.default : JSONEncoding.default
+            
+            let request = sessionManager.request(fullUrl, method: method, parameters: params, encoding: encoding, headers: getHeaders())
+            
+            request.responseDecodable(of: T.self, decoder: decoder) { (response: DataResponse<T, AFError>) in
+                if let error = response.error {
+                    let nsError = error.underlyingError as NSError?
+                    if nsError?.code == -999 { // cancelled
+                        return
+                    }
+                    observer.onError(error)
                     return
                 }
-                errorHandler(nsError)
-                return
+                if let value = response.value as T? {
+                    observer.onNext(value)
+                    return
+                }
+                observer.onNext(nil)
             }
-            if let value = response.value as T? {
-                completion(value)
-                return
-            }
-            completion(nil)
+            
+            return Disposables.create()
         }
-        
-        return request
     }
     
-    static let defaultErrorHandler = {(error: NSError?) in
-        let domain = error?.domain ?? "Unknown error"
-        let message = error?.localizedDescription ?? "Unknown error"
+    static let defaultErrorHandler = {(error: Error) in
+        let error = error as NSError
+        let domain = error.domain
+        let message = error.localizedDescription
         print("Api error: ", domain, ": ", message)
-    }
-    
-    @discardableResult
-    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void) -> DataRequest {
-        return genericRequest(method: method, endpoint: endpoint, params: [:], completion: completion, errorHandler: defaultErrorHandler)
-    }
-    
-    @discardableResult
-    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void) -> DataRequest {
-        return genericRequest(method: method, endpoint: endpoint, params: [:], completion: completion, errorHandler: errorHandler)
-    }
-    
-    @discardableResult
-    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any], completion: @escaping (T?) -> Void) -> DataRequest {
-        return genericRequest(method: method, endpoint: endpoint, params: params, completion: completion, errorHandler: defaultErrorHandler)
-    }
-    
-    @discardableResult
-    static func apiRequest<T: Codable>(method: HTTPMethod, endpoint: String, params: [String: Any], completion: @escaping (T?) -> Void, errorHandler: @escaping (_ error: NSError?) -> Void) -> DataRequest {
-        return genericRequest(method: method, endpoint: endpoint, params: params, completion: completion, errorHandler: errorHandler)
     }
 }

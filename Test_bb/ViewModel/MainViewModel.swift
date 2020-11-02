@@ -47,7 +47,7 @@ class MainViewModel {
     init() { }
     
     func loadColors() {
-        ColorsService.loadColors { [weak self] (response) in
+        ColorsService.loadColors().subscribe(onNext: { [weak self] response in
             guard let response = response else {
                 // show some error message
                 return
@@ -55,11 +55,11 @@ class MainViewModel {
             guard let this = self else {
                 return
             }
-            
+
             this._title.accept(response.title)
             this._colors.accept(response.colors)
             this.setupColors()
-        }
+        }, onError: ApiService.defaultErrorHandler).disposed(by: disposeBag)
     }
     
     private func setupColors() {

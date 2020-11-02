@@ -8,10 +8,11 @@
 
 import Foundation
 import Alamofire
+import RxSwift
 
 public class ColorsService {
     @discardableResult
-    static func loadColors(completion: @escaping (ColorsResponse?) -> Void) -> DataRequest {
-        return ApiService.apiRequest(method: .get, endpoint: "interview.json", completion: completion)
+    static func loadColors() -> Observable<ColorsResponse?> {
+        return ApiService.genericRequest(method: .get, endpoint: "interview.json", responseType: ColorsResponse.self)
     }
 }

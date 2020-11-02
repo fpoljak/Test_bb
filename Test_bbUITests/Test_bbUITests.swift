@@ -61,7 +61,7 @@ class Test_bbUITests: XCTestCase {
                 
                 self.expectation(for: exists, evaluatedWith: firstCell, handler: nil)
                 
-                self.waitForExpectations(timeout: 1.0, handler: { error in
+                self.waitForExpectations(timeout: 5.0, handler: { error in
                     guard error == nil else {
                         return
                     }
