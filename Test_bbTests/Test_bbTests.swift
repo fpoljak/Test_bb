@@ -80,7 +80,7 @@ class Test_bbTests: XCTestCase {
         let viewModel = MainViewModel()
         let testColors = "000000,ffffff,888888,ee3333,33ee33,11aaff"
         
-        _ = try viewModel.loadColors().toBlocking().first()
+        _ = try viewModel.loadColors().toBlocking().first() // wait for data to be loaded
         
         XCTAssertEqual(viewModel._title.value, "Title text")
         XCTAssertEqual(viewModel._backgroundColors.value.count, 6)
