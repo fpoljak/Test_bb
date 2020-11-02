@@ -46,8 +46,10 @@ class MainViewModel {
     
     init() { }
     
-    func loadColors() {
-        ColorsService.loadColors().subscribe(onNext: { [weak self] response in
+    @discardableResult
+    func loadColors() -> Observable<ColorsResponse?> {
+        let observable = ColorsService.loadColors()
+        observable.subscribe(onNext: { [weak self] response in
             guard let response = response else {
                 // show some error message
                 return
@@ -60,6 +62,8 @@ class MainViewModel {
             this._colors.accept(response.colors)
             this.setupColors()
         }, onError: ApiService.defaultErrorHandler).disposed(by: disposeBag)
+        
+        return observable
     }
     
     private func setupColors() {

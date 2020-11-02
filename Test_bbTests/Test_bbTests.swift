@@ -76,50 +76,32 @@ class Test_bbTests: XCTestCase {
         XCTAssertTrue(r == 0.0 && g == 0.0 && b == 0.0 && a == 1.0, "Invalid colors should fall back to black color (0, 0, 0, 1)")
     }
     
-    func testInitialSetup() {
+    func testInitialSetup() throws {
         let viewModel = MainViewModel()
+        let testColors = "000000,ffffff,888888,ee3333,33ee33,11aaff"
         
-//        viewModel.loadColors()
+        _ = try viewModel.loadColors().toBlocking().first()
         
+        XCTAssertEqual(viewModel._title.value, "Title text")
+        XCTAssertEqual(viewModel._backgroundColors.value.count, 6)
+        XCTAssertEqual(viewModel._textColors.value.count, 6)
+        XCTAssertNotNil(viewModel._colors.value)
+        XCTAssertEqual(viewModel._colors.value!.backgroundColors.joined(separator: ","), testColors, "Background colors must match what we got from server")
+        XCTAssertEqual(viewModel._colors.value!.textColors.joined(separator: ","), testColors, "Text colors must match what we got from server")
+        XCTAssert(viewModel._backgroundColors.value.contains(viewModel._backgroundColor.value), "Background color should be one of fetched colors")
     }
     
-//    func testInitialSetup() {
-//        let exp = expectation(description: #function)
-//
-//        let vc = MainViewController()
-//        vc.loadViewIfNeeded()
-//        vc.viewDidLoad()
-//
-//        let view = vc.view!
-//        XCTAssertNotNil(view.backgroundColor)
-//
-//        ColorsService.loadColors { response in
-//            guard let colors = response?.colors else {
-//                exp.isInverted = true
-//                exp.fulfill()
-//                return
-//            }
-//            vc.colors = colors
-//
-////            NSLog("colors: %@", colors.debugDescription)
-//
-//            let testColors = "000000,ffffff,888888,ee3333,33ee33,11aaff"
-//
-//            XCTAssertNotNil(view.backgroundColor)
-//            XCTAssertNotNil(vc.backgroundColors)
-//            XCTAssertNotNil(vc.textColors)
-//            XCTAssertEqual(vc.colors!.backgroundColors.joined(separator: ","), testColors, "Background colors must match what we got from server")
-//            XCTAssertEqual(vc.colors!.textColors.joined(separator: ","), testColors, "Text colors must match what we got from server")
-//            XCTAssert(vc.backgroundColors!.contains(view.backgroundColor!), "Background color should be one of fetched colors")
-//            XCTAssert(vc.textColors!.contains(vc.titleLabel.textColor!), "Text color should be one of fetched colors")
-//            XCTAssertEqual(vc.titleLabel.textColor, vc.backgroundColorButton.titleColor(for: .normal), "All text colors must match")
-//            XCTAssertEqual(vc.titleLabel.textColor, vc.textColorButton.titleColor(for: .normal), "All text colors must match")
-//
-//            exp.fulfill()
-//        }
-//
-//        wait(for: [exp], timeout: 1.0)
-//    }
+    func testColors() throws {
+        let vc = MainViewController()
+        vc.loadViewIfNeeded()
+        vc.viewDidLoad()
+        
+        _ = try vc.viewModel.loadColors().toBlocking().first()
+        
+        XCTAssert(vc.viewModel._textColors.value.contains(vc.titleLabel.textColor!), "Text color should be one of fetched colors")
+        XCTAssertEqual(vc.titleLabel.textColor, vc.backgroundColorButton.titleColor(for: .normal), "All text colors must match")
+        XCTAssertEqual(vc.titleLabel.textColor, vc.textColorButton.titleColor(for: .normal), "All text colors must match")
+    }
 
 //    func testPerformanceExample() throws {
 //        // This is an example of a performance test case.
